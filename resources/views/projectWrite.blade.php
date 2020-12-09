@@ -22,12 +22,6 @@
             flex-direction: column;
         }
 
-        .subContentDiv {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
         .txtTitle {
             width: 100%;
             height: 50px;
@@ -140,6 +134,11 @@
             width: 100%;
             height: 203px;
         }
+
+        .techAdd {
+            height: 100%;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
@@ -181,7 +180,7 @@
             }
 
             inputText.setAttribute('type', 'text');
-            inputText.setAttribute('placeHolder', 'url을 입력해주세요');
+            inputText.setAttribute('placeHolder', '글 id를 입력해주세요');
 
             titleDiv.appendChild(inputText)
             itemDiv.appendChild(noDiv);
@@ -251,7 +250,7 @@
                         <div class="headerDiv">
                             <input name="techJson" id="techJson" type="hidden">
                             <div>사용기술</div>
-                            <div onclick="createTech();">@yield("techAddButton")</div>
+                            <div class="techAdd" onclick="createTech();">@yield("techAddButton")</div>
                         </div>
                         <div class="listDiv">
                             <div class="listHeaderDiv">

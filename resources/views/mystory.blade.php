@@ -130,13 +130,23 @@
 </head>
 <body>
     <script>
+        function to_date2(date_str)
+        {
+            var yyyyMMdd = String(date_str);
+            var sYear = yyyyMMdd.substring(0,4);
+            var sMonth = yyyyMMdd.substring(5,7);
+            var sDate = yyyyMMdd.substring(8,10);
+
+            return new Date(Number(sYear), Number(sMonth)-1, Number(sDate));
+        }
+
         window.onload = () =>
         {
             let schText = document.getElementById('sch_txt');
             function schMyStory(e) {
                 let list = document.getElementById('listDiv');
                 if (e.keyCode == 13) {
-                    alert('aa');
+
                     let httpObj = new XMLHttpRequest();
                     httpObj.open('GET', '/api/mystory/search?schValue=' + schText.value);
                     httpObj.send();
@@ -145,13 +155,15 @@
                         if (httpObj.status == 200) {
                             let listHTML = '';
                             let bodyJson = JSON.parse(httpObj.responseText);
-
+                            console.log(httpObj.responseText);
                             for (let item of bodyJson) {
+                                let date = new Date(item.date);
                                 listHTML += "<a href='/index/mystory/'" + item.id + ">\n" +
                                     "<div class='itemDiv'>\n" +
                                     "<div>" + item.id + "</div>\n" +
                                     "<div>" + item.title + "</div>\n" +
-                                    "<div>" + item.date + "</div>\n" +
+                                    "<div>" + date.getFullYear() + '-' + ((date.getMonth() + 1) > 10 ? (date.getMonth() + 1) :
+                                        '0' + date.getMonth() + 1) + '-' + (date.getDay() > 10 ? date.getDay() : '0' + date.getDay()) + "</div>\n" +
                                     "</div>\n" +
                                     "</a>\n";
                                 list.innerHTML = listHTML;
@@ -164,8 +176,6 @@
             }
 
             schText.onkeydown = schMyStory;
-
-
         }
     </script>
     <div class="mainDiv">
@@ -197,30 +207,36 @@
                                         <div class="itemDiv">
                                             <div>{{ $item['id'] }}</div>
                                             <div>{{ $item['title'] }}</div>
-                                            <div>{{ $item['date'] }}</div>
+                                            <div>{{ date("Y-m-d", strtotime($item['date'])) }}</div>
                                         </div>
                                     </a>
                                 @endforeach
                             </div>
                         </div>
                         <div class="contentFootDiv">
-                            <a href="write"><button>글쓰기</button></a>
+                            <a href="/index/mystory/write"><button>글쓰기</button></a>
                         </div>
                     </div>
                     <div class="contentRightDiv">
+                        @if($story != null)
                         <div class="rightContentDiv">
                             <div class="contentHeaderDiv">
-                                <div>{{ $story->title }}</div>
-                                <div>{{ $story->date }}</div>
+                                <div>제목: {{ $story->title  }}</div>
+                                <div>작성일: {{ date("Y-m-d", strtotime($story->date)) }}</div>
                             </div>
                             <div class="contentContentDiv">
                                 {{ $story->content }}
                             </div>
                         </div>
                         <div class="rightFootDiv">
-                            <a href="delete/{{$story->id}}"><button>삭제</button></a>
-                            <a href="edit/{{$story->id}}"><button>수정</button></a>
+                            <a href="/index/mystory/delete/{{$story->id}}"><button>삭제</button></a>
+                            <a href="/index/mystory/edit/{{$story->id}}"><button>수정</button></a>
                         </div>
+                        @else
+                            <div class="rightContentDiv">
+                                글이 없습니다.
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>

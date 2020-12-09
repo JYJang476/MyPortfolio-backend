@@ -27,6 +27,7 @@ class mystoryController extends Controller
     public function getMyStorys(Request $request) {
         $results = MyStoryModel::all();
         $first = MyStoryModel::all()->first();
+
         return view('mystory', ['storys' => $results->toArray(),
                                 'story' => $first]);
     }
@@ -61,6 +62,7 @@ class mystoryController extends Controller
         }
     }
 
+    // 글 검색
     public function getFindMyStory(Request $request) {
         $story = MyStoryModel::where('title', 'like', "{$request->input('schValue')}%")->get();
 

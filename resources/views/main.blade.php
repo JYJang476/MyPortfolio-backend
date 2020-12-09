@@ -46,17 +46,7 @@
     <div class="mainDiv">
         @yield("nav")
         <div class="contentDiv">
-            <div class="subContentDiv">
-                <div class="msgDiv">
-                    <p>방문을 환영합니다.</p>
-                    <p>관리자이시면 로그인을 해주세요</p>
-                </div>
-                <a href="#">
-                    <div class="btDiv">
-                        로그인
-                    </div>
-                </a>
-            </div>
+            @yield("mainView")
         </div>
     </div>
 </body>

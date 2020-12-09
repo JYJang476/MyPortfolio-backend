@@ -8,6 +8,15 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>About</title>
+    <style>
+        .subContentDiv {
+            margin: auto;
+        }
+
+        img {
+            margin-left: 50px;
+        }
+    </style>
 </head>
 <body>
     <div class="mainDiv">
@@ -15,7 +24,7 @@
         <div class="contentDiv">
             <div class="subContentDiv">
                 <div class="profileDiv">
-                    <img src="http://placehold.it/320x320/efa/aae&text=image" alt="">
+                    <img src="/index/image/17" alt="">
                 </div>
                 <div class="licenseDiv">
                     <p>자격증</p>

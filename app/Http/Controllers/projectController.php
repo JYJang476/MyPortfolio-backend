@@ -29,7 +29,7 @@ class projectController extends Controller
             if(!$result)
                 return redirect('index/project/');
 
-            $projectId = project::all()->count();
+            $projectId = project::all()->last()->id;
             $techs = json_decode($request->input('techJson'));
             $i = 0;
             foreach($files as $file) {
@@ -38,13 +38,12 @@ class projectController extends Controller
                     'img_projid' => $projectId
                 ]);
                 $imgId = image::all()->count();
-                if($i < ppt::all()->count())
-                    ppt::insert([
-                        'img_id' => $imgId,
-                        'ppt_no' => $i + 1,
-                        'board_id' => $techs[$i],
-                        'project_id' => $projectId,
-                    ]);
+                ppt::insert([
+                    'img_id' => $imgId,
+                    'ppt_no' => $i + 1,
+                    'board_id' => $techs[$i],
+                    'project_id' => $projectId,
+                ]);
                 if($i == 0)
                     project::where('id', $projectId)->update([
                         'img_id' => $imgId
@@ -64,11 +63,11 @@ class projectController extends Controller
             ->where('project.id', $id);
 
         $project = project::select()->from($subProj)->distinct();
-//        var_dump($project);
+
         if ($project->get()->count() == 0) {
             $project = project::select()
                 ->where('project.id', $id);
-
+            
             return view('view', [
                 'title' => $project->first()->project_name,
                 'b_id' => $storyList,

@@ -41,7 +41,6 @@ Route::post('/index/mystory/edit/process/{id}', "mystoryController@EditMyStory")
 Route::get('/index/mystory/delete/{id}', "mystoryController@DeleteMyStory");
 
 
-
 Route::get('/index/image/{id}', "imageController@showImage");
 
 Route::get('/index/project/write', function () {
@@ -56,7 +55,7 @@ Route::get('/index/project/{id}', "projectController@showProject");
 Route::post('/index/project/write/process', "projectController@WriteProject");
 
 Route::get('/index/login', function () {
-    return view("login");
+    return view("auth.login");
 });
 
 Route::get('/index/about', function () {

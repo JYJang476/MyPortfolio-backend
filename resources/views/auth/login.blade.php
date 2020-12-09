@@ -61,7 +61,7 @@
             justify-content: space-around;
         }
 
-        .loginBoxDiv input[type="text"] {
+        .loginBoxDiv input[type="text"], input[type="password"] {
             width: 300px;
             height: 30px;
             margin-left: 30px;
@@ -93,7 +93,7 @@
                     @csrf
                     <div class="textDiv">
                         <input name="email" type="text" placeholder="아이디">
-                        <input name="password" type="text" placeholder="비밀번호">
+                        <input name="password" type="password" placeholder="비밀번호">
                     </div>
                     <div class="loginButton">
                         <input type="submit" value="로그인">

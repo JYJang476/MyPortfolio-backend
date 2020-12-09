@@ -12,6 +12,10 @@
         border: 1px solid #707070;
     }
 
+    .user {
+        margin-top: 16px;
+    }
+
     .html {
         width: 100%;
         height: 100%;
@@ -52,6 +56,7 @@
         border: 1px solid black;
         border-radius: 25px;
         text-align: center;
+        line-height: 50px;
     }
 
     .contentDiv {
@@ -81,6 +86,34 @@
 
 </style>
 
+@section("mainView")
+    @if(Auth::check())
+        <div class="subContentDiv">
+            <div class="msgDiv">
+                <p>방문을 환영합니다.</p>
+            </div>
+        </div>
+    @else
+        <div class="subContentDiv">
+            <div class="msgDiv">
+                <p>안녕하십니까 장주영의 홈페이지입니다.</p>
+                <p>방문을 환영합니다.</p>
+                <p>관리자이시면 로그인을 해주세요</p>
+            </div>
+            <a href="/index/login">
+                <div class="btDiv">
+                    로그인
+                </div>
+            </a>
+        </div>
+    @endif
+@endsection
+@section("userIcon")
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+        <path id="Icon_awesome-user-alt" data-name="Icon awesome-user-alt" d="M18,20.25A10.125,10.125,0,1,0,7.875,10.125,10.128,10.128,0,0,0,18,20.25Zm9,2.25H23.126a12.24,12.24,0,0,1-10.252,0H9a9,9,0,0,0-9,9v1.125A3.376,3.376,0,0,0,3.375,36h29.25A3.376,3.376,0,0,0,36,32.625V31.5A9,9,0,0,0,27,22.5Z"/>
+    </svg>
+@endsection
+
 @section("nav")
     <div class="navDiv">
         <a href="/index">
@@ -98,7 +131,9 @@
             <a href="/login">
                 <div class="loginDiv">
                     @if(Auth::check())
-                        {{ Auth::user()->name }}
+                        <svg class="user" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 36 36">
+                            <path id="Icon_awesome-user-alt" data-name="Icon awesome-user-alt" d="M18,20.25A10.125,10.125,0,1,0,7.875,10.125,10.128,10.128,0,0,0,18,20.25Zm9,2.25H23.126a12.24,12.24,0,0,1-10.252,0H9a9,9,0,0,0-9,9v1.125A3.376,3.376,0,0,0,3.375,36h29.25A3.376,3.376,0,0,0,36,32.625V31.5A9,9,0,0,0,27,22.5Z"/>
+                        </svg>
                     @else
                         {{ __("로그인") }}
                     @endif
@@ -125,6 +160,8 @@
         </g>
     </svg>
 @endsection
+
+
 
 @section("techAddButton")
     <svg id="addTech" class="addTech" xmlns="http://www.w3.org/2000/svg" width="18.65" height="18.65" viewBox="0 0 18.65 18.65">
