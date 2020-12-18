@@ -13,8 +13,15 @@
             margin: auto;
         }
 
+        .profileDiv {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
         img {
-            margin-left: 50px;
+            width: 250px;
         }
     </style>
 </head>
@@ -24,7 +31,7 @@
         <div class="contentDiv">
             <div class="subContentDiv">
                 <div class="profileDiv">
-                    <img src="/index/image/17" alt="">
+                    <img src="/index/image/27" alt="">
                 </div>
                 <div class="licenseDiv">
                     <p>자격증</p>

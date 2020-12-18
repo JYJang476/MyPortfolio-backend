@@ -158,7 +158,7 @@
             let listDiv = document.getElementsByClassName('listItemDiv')[0];
 
             itemDiv.setAttribute('class', 'itemDiv');
-            
+
             inputText.onkeydown = (e) => {
                 // 엔터를 입력 시
                 if(e.keyCode == 13) {
@@ -202,7 +202,7 @@
             let imgObj = document.createElement('img');
             let fileArea = document.getElementsByClassName('getImgDiv')[0];
 
-            imgObj.setAttribute('src', imgUrl);
+            // imgObj.setAttribute('src', imgUrl);
             imgParent.appendChild(imgObj);
 
             let newFile = document.createElement('input');
@@ -212,6 +212,15 @@
             newFile.setAttribute('onchange', 'addImage(this)');
 
             obj.setAttribute('style', 'height: 0px');
+
+            if(obj.files) {
+                let reader = new FileReader();
+
+                reader.onload = (e) => {
+                    imgObj.setAttribute('src', e.target.result);
+                }
+                reader.readAsDataURL(obj.files[0]);
+            }
 
             fileArea.appendChild(newFile);
         }
@@ -271,7 +280,7 @@
 
                     <hr>
                     <div class="FootDiv">
-                        <button onclick="write_click();">글쓰기</button onclick="write_click">
+                        <button onclick="write_click();">글쓰기</button>
                         <button>취소</button>
                     </div>
                 </form>

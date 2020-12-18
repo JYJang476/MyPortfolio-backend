@@ -29,7 +29,7 @@
         }
 
         .editButton {
-            width: 540px;
+            width: 54px;
             float: right;
         }
 
@@ -65,19 +65,20 @@
 
         .numsDiv {
             margin-top: 3px;
-            width: 34px;
             height: 34px;
-            border: 1px solid #707070;
-            border-radius: 17px;
             text-align: center;
             line-height: 34px;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
         }
 
         .numsDiv button {
-            width: 100%;
-            height: 100%;
+            width: 34px;
+            height: 34px;
             background-color: transparent;
-            border: none;
+            border: 1px solid #707070;
+            border-radius: 17px;
         }
 
         .imgDiv img {
@@ -104,7 +105,7 @@
                 imgObj.setAttribute('src', imgBaseUrl + imgs_id[++thisIndex]);
             }
         }
-        
+
         function backSlide() {
             let imgObj = document.getElementById("slideImg");
             if(imgs_id.length > thisIndex){

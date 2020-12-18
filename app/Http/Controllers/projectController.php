@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use App\project;
 use App\ppt;
 use App\image;
@@ -37,7 +38,7 @@ class projectController extends Controller
                     'img_url' => $file->store('images'),
                     'img_projid' => $projectId
                 ]);
-                $imgId = image::all()->count();
+                $imgId = image::all()->last()->id;
                 ppt::insert([
                     'img_id' => $imgId,
                     'ppt_no' => $i + 1,
@@ -50,6 +51,7 @@ class projectController extends Controller
                     ]);
                 $i++;
             }
+
             return redirect('index/project/'.$projectId);
         }
     }
@@ -67,7 +69,7 @@ class projectController extends Controller
         if ($project->get()->count() == 0) {
             $project = project::select()
                 ->where('project.id', $id);
-            
+
             return view('view', [
                 'title' => $project->first()->project_name,
                 'b_id' => $storyList,
@@ -94,5 +96,27 @@ class projectController extends Controller
         return view('project', [
            'project' => $project
         ]);
+    }
+
+    public function deleteProject($id) {
+        $targetFiles = [];
+
+        $imgs = image::where('img_projid', $id)->get();
+
+        foreach($imgs as $img)
+            array_push($targetFiles, $img->img_url);
+
+        Storage::delete($targetFiles);
+
+        if(!image::where('img_projid', $id)->delete())
+            return response('image delete fail', 404);
+
+        if(!ppt::where('project_id', $id)->delete())
+            return response('ppt delete fail', 404);
+
+        if(!project::where('id', $id)->delete())
+            return response('project delete fail', 404);
+
+        return response('delete success!', 200);
     }
 }

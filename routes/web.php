@@ -10,7 +10,6 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-//use App\Http\Controllers\TaskController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -51,6 +50,7 @@ Route::get('/index/project', 'projectController@showProjectList');
 
 Route::get('/index/project/{id}', "projectController@showProject");
 
+Route::delete('/api/project/{id}', 'projectController@deleteProject');
 
 Route::post('/index/project/write/process', "projectController@WriteProject");
 
