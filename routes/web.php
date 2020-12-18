@@ -39,7 +39,6 @@ Route::post('/index/mystory/edit/process/{id}', "mystoryController@EditMyStory")
 
 Route::get('/index/mystory/delete/{id}', "mystoryController@DeleteMyStory");
 
-
 Route::get('/index/image/{id}', "imageController@showImage");
 
 Route::get('/index/project/write', function () {
@@ -49,8 +48,6 @@ Route::get('/index/project/write', function () {
 Route::get('/index/project', 'projectController@showProjectList');
 
 Route::get('/index/project/{id}', "projectController@showProject");
-
-Route::delete('/api/project/{id}', 'projectController@deleteProject');
 
 Route::post('/index/project/write/process', "projectController@WriteProject");
 

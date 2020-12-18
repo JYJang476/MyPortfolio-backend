@@ -114,9 +114,11 @@
                         @endfor
                     </div>
                     <div class="FootDiv">
-                        <a href="/index/project/write">
-                            <button>추가</button>
-                        </a>
+                        @if(Auth::check())
+                            <a href="/index/project/write">
+                                <button>추가</button>
+                            </a>
+                        @endif
                     </div>
                 </div>
             </div>

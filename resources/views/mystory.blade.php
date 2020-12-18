@@ -214,7 +214,9 @@
                             </div>
                         </div>
                         <div class="contentFootDiv">
-                            <a href="/index/mystory/write"><button>글쓰기</button></a>
+                            @if(Auth::check())
+                                <a href="/index/mystory/write"><button>글쓰기</button></a>
+                            @endif
                         </div>
                     </div>
                     <div class="contentRightDiv">
@@ -229,8 +231,10 @@
                             </div>
                         </div>
                         <div class="rightFootDiv">
-                            <a href="/index/mystory/delete/{{$story->id}}"><button>삭제</button></a>
-                            <a href="/index/mystory/edit/{{$story->id}}"><button>수정</button></a>
+                            @if(Auth::check())
+                                <a href="/index/mystory/delete/{{$story->id}}"><button>삭제</button></a>
+                                <a href="/index/mystory/edit/{{$story->id}}"><button>수정</button></a>
+                            @endif
                         </div>
                         @else
                             <div class="rightContentDiv">
