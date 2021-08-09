@@ -4,12 +4,13 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class myinfo extends Model
+class Tag extends Model
 {
-    protected $table = 'myinfo';
+    protected $table = 'tag';
     protected $primaryKey = 'id';
+    public $timestamps = false;
 
     protected $fillable = [
-        'kind', 'info_date'
+        'storyId', 'tag'
     ];
 }

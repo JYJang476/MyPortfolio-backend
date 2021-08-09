@@ -4,12 +4,13 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class myinfo extends Model
+class stack extends Model
 {
-    protected $table = 'myinfo';
+    protected $table = 'stack';
     protected $primaryKey = 'id';
+    public $timestamps = false;
 
     protected $fillable = [
-        'kind', 'info_date'
+        'article', 'description'
     ];
 }

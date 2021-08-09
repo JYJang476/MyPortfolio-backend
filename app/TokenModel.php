@@ -4,12 +4,13 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class myinfo extends Model
+class TokenModel extends Model
 {
-    protected $table = 'myinfo';
+    protected $table = 'token';
     protected $primaryKey = 'id';
+    public $timestamps = false;
 
     protected $fillable = [
-        'kind', 'info_date'
+        'token', 'user_no', 'date'
     ];
 }

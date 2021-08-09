@@ -5,31 +5,54 @@ namespace App\Http\Controllers;
 use http\Env\Response;
 use Illuminate\Http\Request;
 use App\MyStoryModel;
+use App\Tag;
 use Illuminate\Support\Facades\Auth;
 
-class mystoryController extends Controller
+class mystoryController
 {
     // 글을 쓴다.
     public function WriteMyStory(Request $request) {
-        if (Auth::check()) {
-            $result = MyStoryModel::insert([
-                'title' => $request->input('txtTitle'),
-                'content' => $request->input('txtContent'),
-                'writer' => Auth::user()->name,
+        $tags = json_decode($request->tag)->tag;
+
+        $result = MyStoryModel::insert([
+            'title' => $request->title,
+            'content' => $request->content,
+            'writer' => $request->writer, // 추후 수정 예정
+        ]);
+
+        if(!$result)
+            return response([
+                'msg' => '실패',
+                'data' => []
+            ], 403);
+
+        $thisId = MyStoryModel::all()->last()->id;
+        foreach($tags as $tag)
+            Tag::insert([
+                'tag' => $tag,
+                'storyId' => $thisId
             ]);
 
-            $thisId = MyStoryModel::all()->last()->id;
-            return redirect('index/mystory/'.$thisId);
-        }
+        return response([
+            'msg' => '성공',
+            'data' => ['id' => $thisId]
+        ]);
     }
 
-    // 글목록을 가져 온다.
-    public function getMyStorys(Request $request) {
-        $results = MyStoryModel::all();
-        $first = MyStoryModel::all()->first();
+    // 글 목록을 가져 온다.
+    public function getMyStorys($page) {
+        $results = MyStoryModel::orderBy('id', 'DESC')
+            ->offset(($page - 1) * 15)
+            ->limit(15)->get();
+        $story = MyStoryModel::all();
+        $pageCount = round($story->count() / 15);
 
-        return view('mystory', ['storys' => $results->toArray(),
-                                'story' => $first]);
+        return response([
+            'msg' => '성공',
+            'data' => ['storys' => $results->toArray(),
+                'pageCount' => $pageCount
+            ]
+        ]);
     }
 
     // 해당 글의 번호를 반환
@@ -48,46 +71,72 @@ class mystoryController extends Controller
 
     // 글을 가져온다.
     public function getMyStory(Request $request, $id) {
-        $results = MyStoryModel::all();
         $story = MyStoryModel::where('id', $id)->first();
-        return view('mystory', ['storys' => $results->toArray(),
-                                'story' => $story]);
-    }
+        $tag = Tag::where('storyId', '=', $id)->get();
 
-    // 글 수정 페이지로 이동
-    public function goEdit(Request $request, $id) {
-        if (Auth::check()) {
-            $story = MyStoryModel::where('id', $id)->first();
-            return view('edit', ['story' => $story]);
-        }
+        return response([
+                'msg' => '성공',
+                'data' => [
+                    'story' => $story,
+                    'tag' => $tag->toArray()
+                ]
+            ]);
     }
 
     // 글 검색
     public function getFindMyStory(Request $request) {
-        $story = MyStoryModel::where('title', 'like', "{$request->input('schValue')}%")->get();
+        $story = MyStoryModel::select(['mystory.id', 'mystory.title', 'mystory.content', 'mystory.date', 'tag.tag'])
+                ->join('tag', 'mystory.id', '=', 'tag.storyId')
+                ->where('tag.tag', 'like', "{$request->input('schValue')}%")->get();
 
         if($story->count() == 0)
             return response('<div>검색결과가 없습니다.</div>', 404);
 
-        return response($story->toArray(), 200);
+        return response([
+            'msg' => '성공',
+            'data' => [
+                'storys' => $story->toArray(),
+                'pageCount' => $story->count()
+            ]
+        ]);
     }
 
     // 글을 삭제 한다.
     public function DeleteMyStory(Request $request, $id) {
-        if (Auth::check()) {
-            $result = MyStoryModel::firstWhere('id', $id)->delete();
-            return redirect('index/mystory');
-        }
+        $auth = $request->header("Authorization");
+        $tokenArray = explode(" ", $auth);
+        $tokenEx = explode(".", $tokenArray[1]);
+        $paramUserId = json_decode(base64_decode($tokenEx[1].'=='))->userId;
+
+        $target = MyStoryModel::firstWhere('id', $id);
+
+        if($target->writer != $paramUserId)
+            return response([
+                'code' => 405,
+                'msg' => '유효한 토큰이 아닙니다.'
+            ], 403);
+
+        $target->delete();
+
+        return response([
+            'msg' => '성공',
+            'data' => []
+        ]);
     }
 
     // 글을 수정한다.
     public function EditMyStory(Request $request, $id) {
-        if (Auth::check()) {
-            $result = MyStoryModel::where('id', $id)->update([
-                'title' => $request->input('txtTitle'),
-                'content' => $request->input('txtContent')
-            ]);
-            return redirect('index/mystory/'.$id);
-        }
+        $result = MyStoryModel::where('id', $id)->update([
+            'title' => $request->txtTitle,
+            'content' => $request->txtContent,
+            'tag' => $request->tag
+        ]);
+
+        return response([
+            'msg' => '성공',
+            'data' => [
+                'id' => $id
+            ]
+        ]);
     }
 }

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class MyStoryMigrate extends Migration
+class CreateToken extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,11 @@ class MyStoryMigrate extends Migration
      */
     public function up()
     {
-        Schema::create('mystory', function (Blueprint $table) {
+        Schema::create('token', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->string('writer');
-            $table->string('content');
-            $table->timestamp('date');
+            $table->string('token', 100);
+            $table->integer('user_no');
+            $table->timestamp('date')->useCurrent();
         });
     }
 
@@ -29,6 +28,6 @@ class MyStoryMigrate extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('token');
     }
 }

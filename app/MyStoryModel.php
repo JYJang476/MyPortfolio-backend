@@ -11,6 +11,6 @@ class MyStoryModel extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'title', 'content', 'writer',
+        'title', 'content', 'writer', 'tag'
     ];
 }
