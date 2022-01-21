@@ -71,11 +71,6 @@ class UserController extends Controller
 
         $token = $this->GenerateToken($request->id, $request->pw);
 
-        TokenModel::insert([
-           "token" => $token,
-            "user_no" => $result->first()->id
-        ]);
-
         return response($token, 200);
     }
 }

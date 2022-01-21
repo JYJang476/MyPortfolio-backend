@@ -17,7 +17,7 @@ class mystoryController
         $result = MyStoryModel::insert([
             'title' => $request->title,
             'content' => $request->content,
-            'writer' => $request->writer, // 추후 수정 예정
+            'writer' => $request->writer,
         ]);
 
         if(!$result)

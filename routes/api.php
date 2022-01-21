@@ -61,3 +61,9 @@ Route::get('/project/view/{id}', "projectController@showProject");
 // 내 스펙 데이터 가져오기
 Route::get('/stack', "stackController@GetStackData");
 Route::post('/stack', "stackController@WriteStackData");
+
+
+// 내 스킬 관리
+Route::post('/skill', 'myskillController@RegistrySkill');
+Route::get('/skill', 'myskillController@GetSkillList');
+Route::get('/skill/icon/{id}', 'myskillController@GetSkillIcon');
